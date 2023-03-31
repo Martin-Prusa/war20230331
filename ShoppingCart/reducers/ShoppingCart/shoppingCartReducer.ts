@@ -12,6 +12,16 @@ type CartActionType =
 export const cartReducer = (state: CartStateType, action: CartActionType): CartStateType => {
     switch (action.type) {
         case 'add':
+            const i = state.items.find(x => x.id === action.item.id)
+            if(i) {
+                i.count++
+                return {
+                    items: [
+                        ...state.items.filter(x => x.id !== i.id),
+                        i
+                    ]
+                }
+            }
             return {
                 items: [
                     ...state.items,
