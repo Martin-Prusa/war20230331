@@ -5,7 +5,7 @@ type CartStateType = {
 }
 
 type CartActionType =
-    | {type: 'add'; name: string, count: number, itemType: string}
+    | {type: 'add'; item: ShopItem}
     | {type: 'delete', id: number}
     | {type: 'deleteAll'};
 
@@ -15,7 +15,7 @@ export const cartReducer = (state: CartStateType, action: CartActionType): CartS
             return {
                 items: [
                     ...state.items,
-                    { id: Date.now(), name: action.name, count: action.count, type: action.itemType }
+                    action.item
                 ]
             }
         case 'delete':
