@@ -1,4 +1,5 @@
 import {ShopItem} from "@/ShoppingCart/interfaces/ShopItem";
+import {act} from "react-dom/test-utils";
 
 type CartStateType = {
     items: ShopItem[]
@@ -7,10 +8,10 @@ type CartStateType = {
 type CartActionType =
     | {type: 'add'; item: ShopItem}
     | {type: 'delete', id: number}
-    | {type: 'deleteAll'};
+    | {type: 'deleteAll'}
+    | {type: 'changeCount', id: number, count: number};
 
 export const cartReducer = (state: CartStateType, action: CartActionType): CartStateType => {
-    console.log("click")
     switch (action.type) {
         case 'add':
             const i = state.items.find(x => x.id === action.item.id)
@@ -41,6 +42,23 @@ export const cartReducer = (state: CartStateType, action: CartActionType): CartS
             return {
                 items: []
             }
+        case "changeCount":
+            const itm = state.items.find(x => x.id === action.id)
+            console.log(itm)
+            if(itm) {
+                return {
+                    items: [
+                        ...state.items.filter(x => x.id !== action.id),
+                        {
+                            id: itm.id,
+                            name: itm.name,
+                            count: action.count,
+                            type: itm.type
+                        }
+                    ]
+                }
+            }
+            return {items: state.items}
         default:
             throw new Error("Unexpected Action")
     }
