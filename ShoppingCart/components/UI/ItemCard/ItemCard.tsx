@@ -6,7 +6,7 @@ export const ItemCard = ({item}: {item: ShopItem}) => {
 
     const { state, dispatch } = useContext(ShoppingCartContext)
 
-    const handleAdd = () => {
+    const handleAdd = (e: React.MouseEvent<HTMLElement>) => {
         dispatch({type: 'add', item})
     }
 
